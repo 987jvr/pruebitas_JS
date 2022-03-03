@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Basic map</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+	<!--HREF para especificar la URL de la hoja de estilos-->
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+	<meta name="viewport" content="width=device-width, 
+    initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+		}
+
+		html,
+		body,
+		#map {
+			height: 100%;
+			width: 100%;
+			background-color: lightgray;
+		}
+
+		.legend {
+			width: 250px;
+			font-size: 16px;
+			color: #333333;
+			font-family: "Open Sans", Helvetica, sans-serif;
+			padding: 10px 14px;
+			background-color: rgba(0, 122, 204, 0.5);
+			box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+			border-radius: 5px;
+			border: 1px solid grey;
+		}
+
+		.legend img {
+			width: 200px;
+			margin: auto;
+			display: block;
+		}
+
+		.legend h3 {
+			line-height: 5px;
+		}
+
+		.legend ul {
+			line-height: 15px;
+			padding-left: 20px;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div id="map"></div>
+
+	<script>
+		let map = L.map("map", { center: [42.97719, -1.51906], zoom: 8 });
+
+
+		let mapabase = L.tileLayer(
+			"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+			{ attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }
+		).addTo(map);
+
+		let imagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+			{ attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community' });
+
+
+		let coordenadas = [[43.24689, -1.68583], [42.81061, -0.96062], [42.12683, -1.62425], [42.73924, -2.09391]]
+
+
+		let line = L.polyline(
+			coordenadas,
+			{ color: "black", weight: 4 }
+		).addTo(map);
+
+
+		let puntos = L.layerGroup();
+		L.marker(coordenadas[0]).bindPopup("Norte").addTo(puntos);
+		L.marker(coordenadas[1]).bindPopup("Este").addTo(puntos);
+		L.marker(coordenadas[2]).bindPopup("Sur").addTo(puntos);
+		L.marker(coordenadas[3]).bindPopup("Oeste").addTo(puntos);
+
+		let legend = L.control({ position: "bottomleft" });
+		legend.onAdd = function () {
+			let div = L.DomUtil.create("div", "legend");
+			div.innerHTML =
+				'Leyenda';
+			return div;
+		};
+		legend.addTo(map);
+
+
+		let popup = L.popup();
+		function onMapClick(e) {
+			console.log("click");
+			popup
+				.setLatLng(e.latlng)
+				.setContent(
+					"You clicked the map at -<br>" +
+					"<b>lon:</b> " + e.latlng.lng + "<br>" +
+					"<b>lat:</b> " + e.latlng.lat
+				)
+				.openOn(map);
+
+		};
+		map.addEventListener("click", onMapClick);
+
+		// Layer control
+		let baseMaps = {
+			"OSM": mapabase,
+			"Imagery": imagery
+		};
+		let overlayMaps = {
+			"Puntos": puntos,
+			"Recorrrido": line,
+
+		};
+		L.control.layers(baseMaps, overlayMaps, { position: "topleft", collapsed: false }).addTo(map);
+
+
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Mr. JavaScript</title>
+    </head>
+    <body>
+        <h1 class="hello">I'm Mr. JavaScript</h1>
+        <a class="howareyou" href="#" >Hey JavaScript, how ya feeling?</a>
+        <a class="reset" id="reset" href="#">REINICIO </a>
+        
+        <script>
+             var a=document.querySelector(".howareyou");
+             //var reset=document.getElementById("reset");
+             var reset=document.getElementsByClassName("reset");
+             //var reset=document.querySelector(".reset");
+             console.log(a);
+             a.addEventListener('click',function() {
+                 var h1=document.querySelector("h1");
+                 console.log(h1);
+                 //alert("We're inside the listener. Has hecho click") //Se mostrará una aviso en el navegador cuando se pulse el enlace
+
+                 h1.innerHTML="Sigo siendo Mr. JS";
+                 a.innerHTML="Not bad";
+                 console.log(a);
+
+                 });
+                 reset.addEventListener('click',function() {
+                 var h1=document.querySelector("h1");
+                 console.log(h1);
+                 //alert("We're inside the listener. Has hecho click") //Se mostrará una aviso en el navegador cuando se pulse el enlace
+
+                 h1.innerHTML="I'm Mr. JavaScript";
+                 a.innerHTML="Hey JavaScript, how ya feeling?";
+                 console.log(a);
+
+                 });   
+        </script>
+    </body>
+</html>

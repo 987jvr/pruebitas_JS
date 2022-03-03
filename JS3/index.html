@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Mr. JavaScript</title>
+    </head>
+    <body>
+        <h1 class="hello">I'm Mr. JavaScript</h1>
+        <a class="howareyou" href="#" >Hey JavaScript, how ya feeling?</a>
+        <a id="reset" href="#" >Volvemos al inicio</a> <!-- Usando ID en lugar de class -->
+        <script>
+
+            var a=document.querySelector(".howareyou");
+
+            a.addEventListener("click",function(){
+                //alert("Has hecho click"); //para comprobar que al hacer click se produce un evento
+                var h1=document.querySelector("h1"); //mejor guardar los elementos en una variable para no tener lineas larguísimas y más difíciles de leer
+                h1.innerHTML="I'm alive"; //para modificar el elemento h1
+                console.log("función click");
+
+            });
+
+            //var reset=document.querySelector("#reset");
+            var reset=document.getElementById("reset"); //sólo funcionará con ID. Recordar: los ID son únicos para el documento. Las classes se pueden reutilizar.
+            //var reset=document.getElementsByClassName("howareyou");  //Se seleccionarán todos los elementos de esa clase y se podrá usar como un array p.ej. (reset[0])
+            reset.addEventListener("click",function(){
+                //alert("Reset"); //para comprobar que al hacer click se produce un evento
+
+                var h1=document.querySelector("h1"); //mejor guardar los elementos en una variable para no tener lineas larguísimas y más difíciles de leer
+                h1.innerHTML="I'm Mr. JavaScript"; //para modificar el elemento h1
+                console.log("función reset");
+
+            });
+
+            //console.log(h1);  //Para comprobar que el script se ejecuta
+
+            //document.querySelector("h1"); //Permite trabajar con los elementos del HTML
+            
+       
+
+        </script>
+
+    </body>
+
+
+</html>

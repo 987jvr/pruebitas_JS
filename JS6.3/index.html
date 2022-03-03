@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Visor de GeoJSON</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+	<!--HREF para especificar la URL de la hoja de estilos-->
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+	<meta name="viewport" content="width=device-width, 
+    initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<style>
+		html,
+		body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		#map {
+			width: 60%;
+			height: 100%;
+			float: left;
+		}
+
+		#text {
+			height: 100%;
+			width: 40%;
+			float: right;
+			background-color: lightsalmon;
+		}
+
+		#geojsontext {
+			background-color: lightcoral;
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			margin-top: 20px;
+			width: 90%;
+			height: 80%;
+		}
+
+		#submit {
+			margin: 20px;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div id="map"></div>
+	<div id="text">
+		<textarea id="geojsontext">Escribe aquí tu temita</textarea>
+		<input type="button" id="submit" value="Submit">
+	</div>
+	<script>
+		let map = L.map("map").setView([42.97719, -1.51906], 8);
+		let layers = L.layerGroup().addTo(map);
+
+
+		L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+			subdomains: 'abcd',
+			maxZoom: 20
+		}).addTo(map);
+
+
+		
+
+		function showGeojson() {
+			layers.clearLayers(); 
+			let txt = document.getElementById("geojsontext").value; //creando variable texto a partir de valor contenido en el elemento geojsontext
+			console.log(typeof(txt)); //en la consola se muestra el tipo de objeto: string
+			txt = JSON.parse(txt); //transformación de texto a objeto
+			console.log(typeof(txt)); //en la consola se muestra el tipo de objeto: object
+			L.geoJSON(txt).addTo(layers); //añadir al mapa
+		}
+		document.getElementById("submit").addEventListener("click", showGeojson); //la función se ejecuta cuando se hace click en submit
+
+	</script>
+</body>
+
+</html>
