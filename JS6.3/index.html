@@ -64,14 +64,14 @@
 		}).addTo(map);
 
 
-		
+
 
 		function showGeojson() {
-			layers.clearLayers(); 
+			layers.clearLayers();
 			let txt = document.getElementById("geojsontext").value; //creando variable texto a partir de valor contenido en el elemento geojsontext
-			console.log(typeof(txt)); //en la consola se muestra el tipo de objeto: string
+			console.log(typeof (txt)); //en la consola se muestra el tipo de objeto: string
 			txt = JSON.parse(txt); //transformación de texto a objeto
-			console.log(typeof(txt)); //en la consola se muestra el tipo de objeto: object
+			console.log(typeof (txt)); //en la consola se muestra el tipo de objeto: object
 			L.geoJSON(txt).addTo(layers); //añadir al mapa
 		}
 		document.getElementById("submit").addEventListener("click", showGeojson); //la función se ejecuta cuando se hace click en submit

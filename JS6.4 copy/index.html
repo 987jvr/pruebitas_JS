@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Visor incidencias EONET</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+	<!--HREF para especificar la URL de la hoja de estilos-->
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+	<meta name="viewport" content="width=device-width, 
+    initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<style>
+		html,
+		body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		#map {
+			width: 100%;
+			height: 100%;
+			float: left;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div id="map"></div>
+	<script>
+		let map = L.map("map").setView([42.97719, -1.51906], 8);
+		let layers = L.layerGroup().addTo(map);
+
+
+		L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+			subdomains: 'abcd',
+			maxZoom: 20
+		}).addTo(map);
+
+		fetch("data/towns.geojson")
+			.then(function (response) {
+				return response.json();
+			})
+			.then(function (data) {
+				L.geoJSON(data).addTo(map);
+
+			});
+
+		let url =
+			"https://earthquake.usgs.gov/earthquakes/feed/v1.0/" +
+			"summary/4.5_week.geojson"
+
+		fetch(url)
+			.then(function (response) {
+				return response.json();
+				console.log(response.headers);
+			})
+			.then(function (data) {
+				//console.log(data);
+			}
+			);
+
+
+	</script>
+</body>
+
+</html>
