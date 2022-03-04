@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Cargando una capa GeoJSON</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+	<!--HREF para especificar la URL de la hoja de estilos-->
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+	<meta name="viewport" content="width=device-width, 
+    initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+		}
+
+		html,
+		body,
+		#map {
+			height: 100%;
+			width: 100%;
+			background-color: lightgray;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div id="map"></div>
+
+	<script>
+		let map = L.map("map").setView([42.97719, -1.51906], 12);
+
+
+
+		L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+			maxZoom: 20,
+			attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+		}).addTo(map);
+
+
+		fetch("data/zonas_borrar.geojson")
+			.then(function (response) {
+				return response.json();
+			})
+			.then(function (data) {
+				L.geoJSON(data,{style:states_style}).addTo(map);
+			});
+
+
+		function towns_color(d) {
+			if (d > 0) return "#b30000";
+			if (d > 10) return "#e34a33";
+			if (d > 30) return "#fc8d59";
+			if (d > 399) return "#fdcc8a";
+			return "#fef0d9";
+		}
+
+
+		function states_style(feature) {
+			return {
+				color: "black",
+				weight: 1,
+				fillColor: towns_color(feature.properties.superficie),
+				fillOpacity: 0.7
+			};
+		}
+/*
+		function states_color(p) {
+			if (p === "Republican") return "red";
+			if (p === "Democrat") return "blue";
+			return "grey";
+		}
+*/
+		L.geoJson(formas, {
+			style: states_style
+		}).addTo(map);
+
+	</script>
+</body>
+
+</html>

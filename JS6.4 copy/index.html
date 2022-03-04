@@ -38,29 +38,11 @@
 			maxZoom: 20
 		}).addTo(map);
 
-		fetch("data/towns.geojson")
-			.then(function (response) {
-				return response.json();
-			})
-			.then(function (data) {
-				L.geoJSON(data).addTo(map);
-
-			});
-
-		let url =
-			"https://earthquake.usgs.gov/earthquakes/feed/v1.0/" +
-			"summary/4.5_week.geojson"
-
-		fetch(url)
-			.then(function (response) {
-				return response.json();
-				console.log(response.headers);
-			})
-			.then(function (data) {
-				//console.log(data);
-			}
-			);
-
+		fetch('https://api.github.com/users/sabesansathananthan')
+			.then(response => response.json())
+			
+			.then(json => console.log(json))
+			.catch(err => console.log('Request Failed', err));
 
 	</script>
 </body>
